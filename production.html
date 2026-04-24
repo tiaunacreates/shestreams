@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SheStreams — Content Library Production</title>
+<link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@300;400;700;900&family=Lora:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --teal: #00E5D9; --purple: #6B3FA0; --black: #080808;
+    --black-2: #0D0D0D; --card: #111111; --white: #FFFFFF;
+    --grey: #555555; --grey-light: #999999; --grey-pale: #CCCCCC;
+    --border: #1E1E1E; --border-light: #2A2A2A;
+  }
+  html { scroll-behavior: smooth; }
+  body { background: var(--black); color: var(--white); font-family: 'Red Hat Display', sans-serif; overflow-x: hidden; }
+  body::before { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 1000; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E"); }
+  .gradient-bar { height: 4px; background: linear-gradient(90deg, var(--teal) 0%, var(--purple) 100%); }
+  nav { display: flex; justify-content: space-between; align-items: center; padding: 22px 6%; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 500; background: rgba(8,8,8,0.94); backdrop-filter: blur(12px); }
+  .nav-logo { font-weight: 700; font-size: 18px; letter-spacing: 0.03em; text-decoration: none; }
+  .nav-logo .she { color: var(--white); }
+  .nav-logo .streams { color: var(--teal); }
+  .nav-links { display: flex; gap: 28px; align-items: center; }
+  .nav-links a { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; color: var(--grey-light); text-decoration: none; text-transform: uppercase; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--teal); }
+  .nav-cta { background: var(--purple) !important; color: var(--white) !important; padding: 9px 20px; }
+  .nav-cta:hover { background: var(--teal) !important; color: var(--black) !important; }
+  section { padding: 90px 6%; }
+  .teal { color: var(--teal); }
+  .purple { color: var(--purple); }
+  .section-eyebrow { font-size: 9px; font-weight: 700; letter-spacing: 0.28em; color: var(--teal); text-transform: uppercase; margin-bottom: 18px; display: flex; align-items: center; gap: 10px; }
+  .section-eyebrow::before { content: ''; width: 24px; height: 1px; background: var(--teal); }
+  .btn-primary { background: var(--purple); color: var(--white); font-family: 'Red Hat Display', sans-serif; font-weight: 700; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; text-decoration: none; padding: 15px 32px; display: inline-block; transition: background 0.2s; }
+  .btn-primary:hover { background: var(--teal); color: var(--black); }
+  .btn-ghost { border: 1px solid var(--border-light); color: var(--grey-pale); font-family: 'Red Hat Display', sans-serif; font-weight: 700; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; text-decoration: none; padding: 14px 32px; display: inline-block; transition: border-color 0.2s, color 0.2s; }
+  .btn-ghost:hover { border-color: var(--purple); color: var(--purple); }
+
+  /* HERO */
+  #hero { min-height: 75vh; display: flex; flex-direction: column; justify-content: center; padding-top: 80px; padding-bottom: 80px; border-bottom: 1px solid var(--border); }
+  .service-badge { display: inline-block; background: var(--purple); color: var(--white); font-size: 8px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; padding: 6px 14px; margin-bottom: 24px; }
+  .hero-headline { font-size: clamp(40px, 6vw, 80px); font-weight: 900; line-height: 0.95; letter-spacing: -0.01em; margin-bottom: 24px; text-transform: uppercase; }
+  .hero-price-row { display: flex; align-items: flex-end; gap: 14px; margin-bottom: 28px; }
+  .hero-price { font-size: 72px; font-weight: 900; color: var(--teal); line-height: 1; letter-spacing: -0.02em; }
+  .hero-price-note { font-size: 12px; color: var(--grey-light); padding-bottom: 10px; line-height: 1.6; }
+  .hero-sub { font-family: 'Lora', serif; font-style: italic; font-size: clamp(14px, 1.8vw, 17px); color: var(--grey-pale); line-height: 1.7; max-width: 600px; margin-bottom: 36px; }
+  .for-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 36px; }
+  .for-tag { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; color: var(--grey-pale); border: 1px solid var(--border-light); padding: 5px 12px; text-transform: uppercase; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  /* MATH */
+  #math { background: var(--black-2); border-bottom: 1px solid var(--border); }
+  .math-intro { max-width: 640px; margin-bottom: 52px; }
+  .math-intro h2 { font-size: clamp(28px, 3.5vw, 42px); font-weight: 900; line-height: 1.05; letter-spacing: -0.01em; margin-bottom: 20px; text-transform: uppercase; }
+  .math-intro p { font-family: 'Lora', serif; font-style: italic; font-size: 14px; color: var(--grey-pale); line-height: 1.75; }
+
+  /* big equation */
+  .math-equation { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; margin-bottom: 48px; padding: 36px; background: var(--card); border: 1px solid var(--border); border-left: 4px solid var(--teal); }
+  .math-block { text-align: center; }
+  .math-big { font-size: 56px; font-weight: 900; color: var(--teal); line-height: 1; letter-spacing: -0.02em; }
+  .math-label { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; color: var(--grey-light); text-transform: uppercase; margin-top: 6px; }
+  .math-op { font-size: 36px; font-weight: 900; color: var(--grey); }
+  .math-result .math-big { color: var(--white); font-size: 72px; }
+
+  .deliverables-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .deliverable-card { background: var(--card); border: 1px solid var(--border); padding: 24px 20px; text-align: center; }
+  .d-num { font-size: 48px; font-weight: 900; color: var(--teal); line-height: 1; letter-spacing: -0.02em; margin-bottom: 6px; }
+  .d-label { font-size: 11px; font-weight: 700; color: var(--grey-pale); text-transform: uppercase; letter-spacing: 0.1em; }
+
+  /* PROBLEM */
+  #problem { border-bottom: 1px solid var(--border); }
+  .problem-intro { max-width: 640px; margin-bottom: 52px; }
+  .problem-intro h2 { font-size: clamp(28px, 3.5vw, 42px); font-weight: 900; line-height: 1.05; letter-spacing: -0.01em; margin-bottom: 20px; text-transform: uppercase; }
+  .problem-intro p { font-family: 'Lora', serif; font-style: italic; font-size: 14px; color: var(--grey-pale); line-height: 1.75; }
+  .problem-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); }
+  .problem-item { background: var(--black); padding: 32px 28px; }
+  .problem-num { font-size: 9px; font-weight: 700; letter-spacing: 0.18em; color: var(--teal); text-transform: uppercase; margin-bottom: 12px; }
+  .problem-item h3 { font-size: 16px; font-weight: 900; color: var(--white); margin-bottom: 10px; line-height: 1.2; text-transform: uppercase; }
+  .problem-item p { font-size: 12.5px; color: var(--grey-light); line-height: 1.7; }
+
+  /* INCLUDES */
+  #includes { background: var(--black-2); border-bottom: 1px solid var(--border); }
+  .includes-grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: 80px; align-items: start; }
+  .includes-left h2 { font-size: clamp(28px, 3.5vw, 42px); font-weight: 900; line-height: 1.0; letter-spacing: -0.01em; margin-bottom: 20px; text-transform: uppercase; }
+  .includes-left p { font-family: 'Lora', serif; font-style: italic; font-size: 14px; color: var(--grey-pale); line-height: 1.75; margin-bottom: 16px; }
+  .includes-list { list-style: none; }
+  .includes-list li { display: flex; align-items: flex-start; gap: 14px; padding: 16px 0; border-bottom: 1px solid var(--border); font-size: 13px; color: var(--grey-pale); line-height: 1.55; }
+  .includes-list li:first-child { border-top: 1px solid var(--border); }
+  .inc-num { font-size: 10px; font-weight: 700; color: var(--teal); letter-spacing: 0.1em; flex-shrink: 0; padding-top: 1px; min-width: 24px; }
+
+  /* HOW */
+  #how { border-bottom: 1px solid var(--border); }
+  .how-header h2 { font-size: clamp(28px, 3.5vw, 40px); font-weight: 900; letter-spacing: -0.01em; text-transform: uppercase; }
+  .how-header p { font-family: 'Lora', serif; font-style: italic; font-size: 14px; color: var(--grey-light); line-height: 1.65; max-width: 520px; margin-top: 14px; }
+  .how-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); margin-top: 40px; }
+  .how-step { background: var(--black); padding: 30px 24px; }
+  .step-num { font-size: 9px; font-weight: 700; letter-spacing: 0.2em; color: var(--teal); text-transform: uppercase; margin-bottom: 14px; }
+  .how-step h3 { font-size: 15px; font-weight: 900; color: var(--white); margin-bottom: 10px; line-height: 1.2; text-transform: uppercase; }
+  .how-step p { font-size: 12px; color: var(--grey-light); line-height: 1.7; }
+
+  /* CONTACT */
+  #contact { background: var(--black-2); border-bottom: 1px solid var(--border); }
+  .contact-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 80px; align-items: start; }
+  .contact-left h2 { font-size: clamp(28px, 3.5vw, 44px); font-weight: 900; line-height: 0.95; letter-spacing: -0.01em; margin-bottom: 22px; text-transform: uppercase; }
+  .contact-left > p { font-family: 'Lora', serif; font-style: italic; font-size: 14px; color: var(--grey-pale); line-height: 1.7; margin-bottom: 12px; }
+  .call-note { font-size: 11px; color: var(--grey-light); line-height: 1.6; padding: 14px 18px; border: 1px solid var(--border); border-left: 3px solid var(--purple); margin-bottom: 28px; }
+  .call-note strong { color: var(--white); }
+  .contact-methods { display: flex; flex-direction: column; gap: 14px; }
+  .contact-method { display: flex; align-items: center; gap: 16px; padding: 16px 20px; border: 1px solid var(--border); text-decoration: none; transition: border-color 0.2s; }
+  .contact-method:hover { border-color: var(--teal); }
+  .method-icon { width: 36px; height: 36px; background: #1A1A1A; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .method-icon span { font-size: 14px; }
+  .method-label { font-size: 9px; font-weight: 700; letter-spacing: 0.18em; color: var(--grey-light); text-transform: uppercase; margin-bottom: 2px; }
+  .method-value { font-size: 13px; font-weight: 700; color: var(--teal); }
+  .contact-right { padding-top: 8px; }
+  .contact-note { background: var(--black); border: 1px solid var(--border); border-left: 3px solid var(--purple); padding: 28px 26px; margin-bottom: 24px; }
+  .contact-note p { font-family: 'Lora', serif; font-style: italic; font-size: 14px; color: var(--grey-pale); line-height: 1.7; }
+  .contact-note p + p { margin-top: 12px; }
+  .response-note { font-size: 10px; color: var(--grey); letter-spacing: 0.06em; line-height: 1.8; }
+
+  footer { padding: 28px 6%; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; border-top: 1px solid var(--border); }
+  .footer-logo { font-weight: 700; font-size: 16px; text-decoration: none; }
+  .footer-logo .she { color: var(--white); }
+  .footer-logo .streams { color: var(--teal); }
+  .footer-tagline { font-family: 'Lora', serif; font-style: italic; font-size: 12px; color: var(--grey); }
+  .footer-nav { display: flex; gap: 20px; }
+  .footer-nav a { font-size: 10px; color: var(--grey); text-decoration: none; letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s; }
+  .footer-nav a:hover { color: var(--teal); }
+
+</style>
+</head>
+<body>
+<div class="gradient-bar"></div>
+<nav>
+  <a href="/shestreams/" class="nav-logo"><span class="she">SHE</span><span class="streams">STREAMS</span></a>
+  <div class="nav-links">
+    <a href="/shestreams/">← Back</a>
+    <a href="/shestreams/audit.html">Audit</a>
+    <a href="#contact" class="nav-cta">Book a Free Call</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <span class="service-badge">Service 02</span>
+  <h1 class="hero-headline">Content Library<br>Production</h1>
+  <div class="hero-price-row">
+    <div class="hero-price">$500</div>
+    <div class="hero-price-note">per session<br>custom packages available</div>
+  </div>
+  <p class="hero-sub">You record one hour of teaching, coaching, or speaking. That session comes back to you as 3 blog posts, 3 reels, 3 carousels, and 3 written posts — produced, written, and ready to schedule. You put in one hour. You get back a full month of content across every platform.</p>
+  <div class="for-tags">
+    <span class="for-tag">YouTubers</span>
+    <span class="for-tag">Speakers</span>
+    <span class="for-tag">Course Creators</span>
+    <span class="for-tag">Coaches</span>
+    <span class="for-tag">Teachers</span>
+  </div>
+  <div class="hero-actions">
+    <a href="#contact" class="btn-primary">Book a Free 15-Min Call</a>
+    <a href="#math" class="btn-ghost">See How It Works</a>
+  </div>
+</section>
+
+<!-- THE MATH -->
+<section id="math">
+  <div class="math-intro reveal">
+    <div class="section-eyebrow">What You Get</div>
+    <h2>One hour recorded.<br><span class="teal">Twelve pieces of content.</span></h2>
+    <p>Everything SheStreams delivers comes from that single recording. No extra sessions, no extra writing on your end. You teach what you already know, and we pull twelve ready-to-post pieces out of it.</p>
+  </div>
+  <div class="math-equation reveal">
+    <div class="math-block"><div class="math-big">1</div><div class="math-label">Hour Recorded</div></div>
+    <div class="math-op">=</div>
+    <div class="math-block math-result"><div class="math-big">12</div><div class="math-label">Pieces of Content</div></div>
+  </div>
+  <div class="deliverables-grid reveal">
+    <div class="deliverable-card"><div class="d-num">3</div><div class="d-label">Blog Posts</div></div>
+    <div class="deliverable-card"><div class="d-num">3</div><div class="d-label">Short-Form Reels</div></div>
+    <div class="deliverable-card"><div class="d-num">3</div><div class="d-label">Carousels</div></div>
+    <div class="deliverable-card"><div class="d-num">3</div><div class="d-label">Written Posts</div></div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section id="problem">
+  <div class="problem-intro reveal">
+    <div class="section-eyebrow">What This Solves</div>
+    <h2>You're already creating.<br><span class="teal">But it's only<br>landing in one place.</span></h2>
+    <p>The issue isn't effort. It's that there's no system turning what you already make into everything it could be.</p>
+  </div>
+  <div class="problem-grid reveal">
+    <div class="problem-item">
+      <div class="problem-num">Problem 01</div>
+      <h3>One Recording Goes One Place</h3>
+      <p>You spend time preparing, you show up, you deliver something valuable — and it gets posted once and disappears. A YouTube video that never gets clipped. A workshop that never becomes a blog. A teaching that lives in one folder and reaches a fraction of the people it should. The content has more in it than you're getting out of it.</p>
+    </div>
+    <div class="problem-item">
+      <div class="problem-num">Problem 02</div>
+      <h3>Showing Up Consistently Takes Too Much</h3>
+      <p>Trying to post consistently on YouTube, Instagram, and a blog — separately, from scratch — while also running whatever it is you actually do is not sustainable. The people who manage it aren't working harder than you. They have a system that takes one piece of content and makes it work everywhere. This is that system.</p>
+    </div>
+  </div>
+</section>
+
+<!-- INCLUDES -->
+<section id="includes">
+  <div class="includes-grid reveal">
+    <div class="includes-left">
+      <div class="section-eyebrow">What's Included</div>
+      <h2>From recording<br>to ready to post.</h2>
+      <p>You bring the topic. SheStreams handles production, editing, and repurposing. Everything comes back to you written, produced, and formatted — you decide when and where to schedule it.</p>
+      <p>One session. A full month of content in your hands.</p>
+    </div>
+    <div class="includes-right">
+      <ul class="includes-list">
+        <li><span class="inc-num">01</span>Pre-production — topic outline, run-of-show, and technical walkthrough before we record</li>
+        <li><span class="inc-num">02</span>1-hour fully produced recording session</li>
+        <li><span class="inc-num">03</span>Raw recording delivered within 24 hours</li>
+        <li><span class="inc-num">04</span>3 blog posts written from your session content</li>
+        <li><span class="inc-num">05</span>3 short-form reels — scripted and clipped from your recording</li>
+        <li><span class="inc-num">06</span>3 carousels — slide-by-slide breakdowns of key points</li>
+        <li><span class="inc-num">07</span>3 written social posts — captions ready to copy and schedule</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div class="how-header reveal">
+    <div class="section-eyebrow">How It Works</div>
+    <h2>What happens<br>after you reach out.</h2>
+    <p>Start with the free 15-minute call. We confirm the topic, check that your setup is ready to record clean, and get the session on the calendar.</p>
+  </div>
+  <div class="how-steps reveal">
+    <div class="how-step">
+      <div class="step-num">Step 01</div>
+      <h3>Free 15-Min Call</h3>
+      <p>We talk through your topic and make sure your recording setup is in good shape. If it's not, we handle that first with the audit session before we produce anything.</p>
+    </div>
+    <div class="how-step">
+      <div class="step-num">Step 02</div>
+      <h3>Pre-Production</h3>
+      <p>We build your run-of-show together, walk through the tech, and make sure the session is set up so the recording comes out clean and usable.</p>
+    </div>
+    <div class="how-step">
+      <div class="step-num">Step 03</div>
+      <h3>Record</h3>
+      <p>You show up and teach for one hour. SheStreams handles production and monitoring on the backend so you can focus entirely on what you're saying.</p>
+    </div>
+    <div class="how-step">
+      <div class="step-num">Step 04</div>
+      <h3>Receive Your Content</h3>
+      <p>Raw recording within 24 hours. All 12 pieces of content — blogs, reels, carousels, and posts — delivered and ready to schedule whenever you are.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-grid">
+    <div class="contact-left reveal">
+      <div class="section-eyebrow">Book a Free Call</div>
+      <h2>Bring a topic.<br><span class="teal">We'll handle<br>the rest.</span></h2>
+      <p>Email or DM to book the free 15-minute call. Tell me what you want to record, who it's for, and where you're currently at with your setup.</p>
+      <div class="call-note"><strong>One thing to know:</strong> This service works best when your recording setup is already producing clean audio and video. If yours isn't there yet, the audit session is the better starting point.</div>
+      <div class="contact-methods">
+        <a href="mailto:shestreamsmedia@gmail.com" class="contact-method">
+          <div class="method-icon"><span>✉</span></div>
+          <div><div class="method-label">Email to Book</div><div class="method-value">shestreamsmedia@gmail.com</div></div>
+        </a>
+        <a href="https://instagram.com/shestreamsmedia" target="_blank" class="contact-method">
+          <div class="method-icon"><span>↗</span></div>
+          <div><div class="method-label">DM on Instagram</div><div class="method-value">@shestreamsmedia</div></div>
+        </a>
+      </div>
+    </div>
+    <div class="contact-right reveal">
+      <div class="contact-note">
+        <p>Not sure if your setup is ready? Start with the free call and we'll figure it out. If the audit makes more sense first, we'll do that and come back to production when you're set.</p>
+        <p>Already know you're ready — bring the topic. We'll get it on the calendar.</p>
+      </div>
+      <p class="response-note">All emails and DMs are responded to within 48 hours.<br>Availability is limited and filled on a first-come basis.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <a href="/shestreams/" class="footer-logo"><span class="she">SHE</span><span class="streams">STREAMS</span></a>
+  <div class="footer-tagline">For voices with a purpose.</div>
+  <div class="footer-nav">
+    <a href="/shestreams/">Home</a>
+    <a href="/shestreams/audit.html">← Audit</a>
+  </div>
+</footer>
+<div class="gradient-bar"></div>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) { setTimeout(() => entry.target.classList.add('visible'), i * 80); observer.unobserve(entry.target); }
+    });
+  }, { threshold: 0.08 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
