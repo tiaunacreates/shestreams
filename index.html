@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SheStreams — Media Consulting & Production</title>
+<link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@300;400;700;900&family=Lora:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --teal: #00E5D9; --purple: #6B3FA0; --black: #080808;
+    --black-2: #0D0D0D; --card: #111111; --white: #FFFFFF;
+    --grey: #555555; --grey-light: #999999; --grey-pale: #CCCCCC;
+    --border: #1E1E1E; --border-light: #2A2A2A;
+  }
+  html { scroll-behavior: smooth; }
+  body { background: var(--black); color: var(--white); font-family: 'Red Hat Display', sans-serif; overflow-x: hidden; }
+  body::before {
+    content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 1000;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+  }
+  .gradient-bar { height: 4px; background: linear-gradient(90deg, var(--teal) 0%, var(--purple) 100%); }
+
+  /* NAV */
+  nav { display: flex; justify-content: space-between; align-items: center; padding: 22px 6%; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 500; background: rgba(8,8,8,0.94); backdrop-filter: blur(12px); }
+  .nav-logo { font-weight: 700; font-size: 18px; letter-spacing: 0.03em; text-decoration: none; }
+  .nav-logo .she { color: var(--white); }
+  .nav-logo .streams { color: var(--teal); }
+  .nav-links { display: flex; gap: 28px; align-items: center; }
+  .nav-links a { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; color: var(--grey-light); text-decoration: none; text-transform: uppercase; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--teal); }
+  .nav-cta { background: var(--teal) !important; color: var(--black) !important; padding: 9px 20px; }
+  .nav-cta:hover { background: var(--white) !important; }
+
+  section { padding: 90px 6%; }
+  .teal { color: var(--teal); }
+  .section-eyebrow { font-size: 9px; font-weight: 700; letter-spacing: 0.28em; color: var(--teal); text-transform: uppercase; margin-bottom: 18px; display: flex; align-items: center; gap: 10px; }
+  .section-eyebrow::before { content: ''; width: 24px; height: 1px; background: var(--teal); }
+
+  /* HERO */
+  #hero { min-height: 90vh; display: flex; flex-direction: column; justify-content: center; padding-top: 80px; padding-bottom: 80px; border-bottom: 1px solid var(--border); }
+  .hero-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.28em; color: var(--teal); text-transform: uppercase; margin-bottom: 28px; display: flex; align-items: center; gap: 12px; }
+  .hero-eyebrow::before { content: ''; width: 32px; height: 1px; background: var(--teal); }
+  .hero-headline { font-size: clamp(52px, 8vw, 96px); font-weight: 900; line-height: 0.92; letter-spacing: -0.01em; margin-bottom: 32px; text-transform: uppercase; }
+  .hero-sub { font-family: 'Lora', serif; font-style: italic; font-size: clamp(14px, 1.8vw, 17px); color: var(--grey-pale); line-height: 1.7; max-width: 560px; margin-bottom: 44px; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+  .btn-primary { background: var(--teal); color: var(--black); font-family: 'Red Hat Display', sans-serif; font-weight: 700; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; text-decoration: none; padding: 15px 32px; display: inline-block; transition: background 0.2s; }
+  .btn-primary:hover { background: var(--white); }
+  .btn-ghost { border: 1px solid var(--border-light); color: var(--grey-pale); font-family: 'Red Hat Display', sans-serif; font-weight: 700; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; text-decoration: none; padding: 14px 32px; display: inline-block; transition: border-color 0.2s, color 0.2s; }
+  .btn-ghost:hover { border-color: var(--teal); color: var(--teal); }
+  .hero-stat-row { display: flex; gap: 48px; margin-top: 64px; padding-top: 36px; border-top: 1px solid var(--border); flex-wrap: wrap; }
+  .stat-num { font-size: 32px; font-weight: 900; color: var(--white); letter-spacing: -0.02em; line-height: 1; margin-bottom: 4px; }
+  .stat-num span { color: var(--teal); }
+  .stat-label { font-size: 10px; font-weight: 400; color: var(--grey-light); letter-spacing: 0.1em; text-transform: uppercase; }
+
+  /* TWO OFFERS */
+  #offers { background: var(--black-2); border-bottom: 1px solid var(--border); }
+  .offers-intro { margin-bottom: 52px; }
+  .offers-intro h2 { font-size: clamp(28px, 3.5vw, 44px); font-weight: 900; line-height: 1.0; letter-spacing: -0.01em; text-transform: uppercase; margin-bottom: 16px; }
+  .offers-intro p { font-family: 'Lora', serif; font-style: italic; font-size: 14px; color: var(--grey-pale); line-height: 1.75; max-width: 580px; }
+
+  .offer-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .offer-card { background: var(--card); border: 1px solid var(--border); overflow: hidden; display: flex; flex-direction: column; }
+  .offer-card-bar { height: 4px; }
+  .bar-teal { background: var(--teal); }
+  .bar-purple { background: var(--purple); }
+  .offer-card-inner { padding: 32px 28px 28px; flex: 1; display: flex; flex-direction: column; }
+  .offer-badge { font-size: 8px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; display: inline-block; padding: 5px 12px; margin-bottom: 20px; }
+  .badge-teal { background: var(--teal); color: var(--black); }
+  .badge-purple { background: var(--purple); color: var(--white); }
+  .offer-card h3 { font-size: 22px; font-weight: 900; line-height: 1.1; color: var(--white); margin-bottom: 8px; text-transform: uppercase; letter-spacing: -0.01em; }
+  .offer-for { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; color: var(--grey-light); text-transform: uppercase; margin-bottom: 16px; }
+  .offer-for span { color: var(--teal); }
+  .offer-price { font-size: 52px; font-weight: 900; color: var(--teal); line-height: 1; letter-spacing: -0.02em; margin-bottom: 4px; }
+  .offer-rate { font-size: 10px; color: var(--grey-light); margin-bottom: 20px; }
+  .offer-teaser { font-family: 'Lora', serif; font-style: italic; font-size: 13px; color: var(--grey-pale); line-height: 1.65; margin-bottom: 28px; flex: 1; }
+  .offer-link { display: block; text-align: center; background: transparent; border: 1px solid var(--border-light); color: var(--grey-pale); font-family: 'Red Hat Display', sans-serif; font-weight: 700; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; text-decoration: none; padding: 13px; transition: border-color 0.2s, color 0.2s; margin-top: auto; }
+  .offer-link:hover { border-color: var(--teal); color: var(--teal); }
+
+  /* ABOUT */
+  #about { border-bottom: 1px solid var(--border); }
+  .about-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 80px; align-items: start; }
+  .about-left h2 { font-size: clamp(28px, 3.5vw, 42px); font-weight: 900; line-height: 1.0; letter-spacing: -0.01em; margin-bottom: 28px; text-transform: uppercase; }
+  .about-left p { font-family: 'Lora', serif; font-style: italic; font-size: 14px; color: var(--grey-pale); line-height: 1.75; margin-bottom: 16px; }
+  .credential-list { list-style: none; }
+  .credential-list li { display: flex; align-items: flex-start; gap: 16px; padding: 18px 0; border-bottom: 1px solid var(--border); font-size: 13px; color: var(--grey-pale); line-height: 1.5; }
+  .credential-list li:first-child { border-top: 1px solid var(--border); }
+  .cred-icon { width: 32px; height: 32px; border: 1px solid var(--border-light); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+  .cred-icon span { color: var(--teal); font-size: 13px; font-weight: 700; }
+  .cred-text strong { display: block; font-weight: 700; color: var(--white); margin-bottom: 2px; font-size: 13px; }
+
+  /* CONTACT */
+  #contact { background: var(--black-2); border-bottom: 1px solid var(--border); }
+  .contact-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 80px; align-items: start; }
+  .contact-left h2 { font-size: clamp(32px, 4vw, 48px); font-weight: 900; line-height: 0.95; letter-spacing: -0.01em; margin-bottom: 22px; text-transform: uppercase; }
+  .contact-left > p { font-family: 'Lora', serif; font-style: italic; font-size: 14px; color: var(--grey-pale); line-height: 1.7; margin-bottom: 12px; }
+  .call-note { font-size: 11px; color: var(--grey-light); line-height: 1.6; padding: 14px 18px; border: 1px solid var(--border); border-left: 3px solid var(--teal); margin-bottom: 28px; }
+  .call-note strong { color: var(--white); }
+  .contact-methods { display: flex; flex-direction: column; gap: 14px; }
+  .contact-method { display: flex; align-items: center; gap: 16px; padding: 16px 20px; border: 1px solid var(--border); text-decoration: none; transition: border-color 0.2s; }
+  .contact-method:hover { border-color: var(--teal); }
+  .method-icon { width: 36px; height: 36px; background: #1A1A1A; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .method-icon span { font-size: 14px; }
+  .method-label { font-size: 9px; font-weight: 700; letter-spacing: 0.18em; color: var(--grey-light); text-transform: uppercase; margin-bottom: 2px; }
+  .method-value { font-size: 13px; font-weight: 700; color: var(--teal); }
+  .contact-right { padding-top: 8px; }
+  .contact-note { background: var(--black); border: 1px solid var(--border); border-left: 3px solid var(--teal); padding: 28px 26px; margin-bottom: 24px; }
+  .contact-note p { font-family: 'Lora', serif; font-style: italic; font-size: 14px; color: var(--grey-pale); line-height: 1.7; }
+  .contact-note p + p { margin-top: 12px; }
+  .response-note { font-size: 10px; color: var(--grey); letter-spacing: 0.06em; line-height: 1.8; }
+
+  footer { padding: 28px 6%; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; border-top: 1px solid var(--border); }
+  .footer-logo { font-weight: 700; font-size: 16px; text-decoration: none; }
+  .footer-logo .she { color: var(--white); }
+  .footer-logo .streams { color: var(--teal); }
+  .footer-tagline { font-family: 'Lora', serif; font-style: italic; font-size: 12px; color: var(--grey); }
+  .footer-right { font-size: 10px; color: var(--grey); letter-spacing: 0.08em; }
+
+  .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.65s ease, transform 0.65s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 768px) {
+    section { padding: 60px 5%; }
+    nav { padding: 18px 5%; }
+    .nav-links a:not(.nav-cta) { display: none; }
+    .offer-cards, .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+    .hero-stat-row { gap: 28px; }
+  }
+</style>
+</head>
+<body>
+<div class="gradient-bar"></div>
+<nav>
+  <a href="index.html" class="nav-logo"><span class="she">SHE</span><span class="streams">STREAMS</span></a>
+  <div class="nav-links">
+    <a href="audit.html">Audit</a>
+    <a href="production.html">Production</a>
+    <a href="#about">About</a>
+    <a href="#contact" class="nav-cta">Free 15-Min Call</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-eyebrow">Media Consulting &amp; Production</div>
+  <h1 class="hero-headline">
+    Use your voice.<br><span class="teal">For purpose.</span><br>Show up<br><span class="teal">everywhere.</span>
+  </h1>
+  <p class="hero-sub">SheStreams helps podcasters, YouTubers, speakers, coaches, and course creators get their setup right and get their content working. If your message is sitting in one place while you're spread thin trying to keep up — this is where that stops.</p>
+  <div class="hero-actions">
+    <a href="#contact" class="btn-primary">Book a Free 15-Min Call</a>
+    <a href="#offers" class="btn-ghost">See the Services</a>
+  </div>
+</section>
+
+<!-- OFFERS -->
+<section id="offers">
+  <div class="offers-intro reveal">
+    <div class="section-eyebrow">What SheStreams Does</div>
+    <h2>Two ways I can<br>help you right now.</h2>
+    <p>Read through both. One is for people whose setup is getting in the way before they even start. The other is for people already recording who need a system that makes that one hour of content go much further. Book the free call if you're not sure which one fits — that's exactly what it's for.</p>
+  </div>
+  <div class="offer-cards reveal">
+    <div class="offer-card">
+      <div class="offer-card-bar bar-teal"></div>
+      <div class="offer-card-inner">
+        <span class="offer-badge badge-teal">Service 01</span>
+        <h3>Media Audit &amp; Strategy Session</h3>
+        <div class="offer-for">For: <span>Podcasters · New YouTubers · Speakers · Creators</span></div>
+        <div class="offer-price">$200</div>
+        <div class="offer-rate">Flat rate · 75-minute session</div>
+        <p class="offer-teaser">If bad audio, the wrong gear, or a workflow that doesn't make sense is costing you confidence and credibility — this session fixes it. We go through your full setup and you leave with a written plan for exactly what to do next.</p>
+        <a href="audit.html" class="offer-link">See What's Included →</a>
+      </div>
+    </div>
+    <div class="offer-card">
+      <div class="offer-card-bar bar-purple"></div>
+      <div class="offer-card-inner">
+        <span class="offer-badge badge-purple">Service 02</span>
+        <h3>Content Library Production</h3>
+        <div class="offer-for">For: <span>YouTubers · Speakers · Course Creators · Coaches</span></div>
+        <div class="offer-price">$500</div>
+        <div class="offer-rate">Per session · Custom packages available</div>
+        <p class="offer-teaser">You record one hour of teaching, coaching, or speaking. That session comes back to you as 3 blogs, 3 reels, 3 carousels, and 3 posts — written, produced, and ready to schedule. You show up once. The content does the rest.</p>
+        <a href="production.html" class="offer-link">See What's Included →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid reveal">
+    <div class="about-left">
+      <div class="section-eyebrow">About</div>
+      <h2>Who is<br>behind<br><span class="teal">SheStreams.</span></h2>
+      <p>I'm Tiauna Hall. I've been in production for 10 years — trained at The Weather Channel, on-set at Fox's <em>Star</em>, and for the last six years running live media for churches and organizations that needed their message to reach further than the room they were standing in.</p>
+      <p>I built SheStreams because the people I kept working with — speakers, teachers, coaches, creators — all had the same gap. They had something worth saying and no reliable system to get it out. Wrong gear, no workflow, content that went nowhere. I know how to fix all of that, and I built these services to do exactly that.</p>
+      <p>When you work with SheStreams, you're working with someone who has been in professional production rooms and on broadcast sets, not someone who learned this on YouTube last year. That background is what makes the difference between a session that sounds like advice and one that actually changes what you're putting out.</p>
+    </div>
+    <div class="about-right">
+      <ul class="credential-list">
+        <li><div class="cred-icon"><span>↗</span></div><div class="cred-text"><strong>Broadcast Background</strong>Trained at The Weather Channel and on-set at Fox's <em>Star</em> — production experience at a professional level before I ever worked with independent creators.</div></li>
+        <li><div class="cred-icon"><span>↗</span></div><div class="cred-text"><strong>Media Director</strong>Six years leading live production, streaming, and media operations for churches and organizations — setup, strategy, and execution from scratch.</div></li>
+        <li><div class="cred-icon"><span>↗</span></div><div class="cred-text"><strong>I Work With People Who Use Their Voice</strong>Podcasters, YouTubers, speakers, coaches, teachers, and course creators who need the production side handled so they can stay focused on the message.</div></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-grid">
+    <div class="contact-left reveal">
+      <div class="section-eyebrow">Book a Free Call</div>
+      <h2>Start with<br>15 minutes.<br><span class="teal">No commitment.</span></h2>
+      <p>The free call is how we figure out what you actually need. We look at where you are, what you're working with, and which service makes sense right now. If neither one is the right fit yet, I'll tell you that too.</p>
+      <div class="call-note"><strong>Email or DM to book.</strong> Tell me a little about what you're working on and we'll find a time.</div>
+      <div class="contact-methods">
+        <a href="mailto:shestreamsmedia@gmail.com" class="contact-method">
+          <div class="method-icon"><span>✉</span></div>
+          <div><div class="method-label">Email to Book</div><div class="method-value">shestreamsmedia@gmail.com</div></div>
+        </a>
+        <a href="https://instagram.com/shestreamsmedia" target="_blank" class="contact-method">
+          <div class="method-icon"><span>↗</span></div>
+          <div><div class="method-label">DM on Instagram</div><div class="method-value">@shestreamsmedia</div></div>
+        </a>
+      </div>
+    </div>
+    <div class="contact-right reveal">
+      <div class="contact-note">
+        <p>If you already know your setup is the issue — go to the audit page and email to book directly.</p>
+        <p>If you're already recording and want a full content library from one session — go to the production page. Bring a topic and we'll get it scheduled.</p>
+      </div>
+      <p class="response-note">All emails and DMs are responded to within 48 hours.<br>Availability is limited and filled on a first-come basis.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <a href="index.html" class="footer-logo"><span class="she">SHE</span><span class="streams">STREAMS</span></a>
+  <div class="footer-tagline">For voices with a purpose.</div>
+  <div class="footer-right">Media Consulting &nbsp;·&nbsp; Content Production</div>
+</footer>
+<div class="gradient-bar"></div>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) { setTimeout(() => entry.target.classList.add('visible'), i * 80); observer.unobserve(entry.target); }
+    });
+  }, { threshold: 0.08 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
